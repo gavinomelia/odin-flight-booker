@@ -1,24 +1,67 @@
-# README
+# Flight Booker
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A simple one-way flight booking application built as part of [The Odin Project's Ruby on Rails curriculum](https://www.theodinproject.com/lessons/ruby-on-rails-flight-booker).
 
-Things you may want to cover:
+## Project Overview
 
-* Ruby version
+This application allows users to:
 
-* System dependencies
+- Search for available flights based on desired dates, departure and arrival airports
+- Select from available flights
+- Enter passenger information
+- Book flights with multiple passengers
+- Receive a confirmation email (when configured)
 
-* Configuration
+### Key Features
 
-* Database creation
+- Advanced forms with nested attributes
+- Date-based search functionality
+- Multiple model associations
+- Email notifications
 
-* Database initialization
+## Setup Instructions
 
-* How to run the test suite
+### Prerequisites
 
-* Services (job queues, cache servers, search engines, etc.)
+- Ruby (version 3.0.0 or higher)
+- Rails (version 7.0.0 or higher)
+- PostgreSQL
 
-* Deployment instructions
+### Installation
 
-* ...
+1. Clone the repository
+
+```
+git clone https://github.com/your-username/odin-flight-booker.git
+cd odin-flight-booker
+```
+
+2. Install dependencies
+
+```
+bundle install
+```
+
+3. Database setup
+
+```
+rails db:create
+rails db:migrate
+rails db:seed
+```
+
+4. Start the server
+
+```
+rails server
+```
+
+5. Visit `http://localhost:3000` in your browser
+
+## Learning Objectives
+
+- Building advanced forms with complex requirements
+- Managing multiple model associations
+- Working with date-based queries
+- Implementing nested forms
+- Sending confirmation emails
