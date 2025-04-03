@@ -1,16 +1,32 @@
 <p style="color: green"><%= notice %></p>
 
 <% content_for :title, "Flights" %>
+<%= form_with url: "/flights", method: :get do |f| %>
+  <%= f.label 'Departing from:' %>
+  <%= f.collection_select :departure_airport, Airport.all, :id, :code %>
+  <%= f.label 'Destination:' %>
+  <%= f.collection_select :arrival_airport, Airport.all, :id, :code %>
+  <%= f.label 'Number of passengers (1-4):' %>
+  <%= f.select :passengers, [1, 2, 3, 4] %>
+  <%= f.label 'Date:' %>
+  <%= f.select :start_datetime,
+      Flight.distinct.order(:start_datetime).pluck(:start_datetime).map { |dt| [dt.strftime('%B %d, %Y'), dt.to_date] },
+      { include_blank: "Select date" } %>
+  <%= f.submit "Search" %>
+<% end %>
 
 <h1>Flights</h1>
 
 <div id="flights">
+  <% if @flights.exists? %>
   <% @flights.each do |flight| %>
-    <%= render flight %>
+    <%= render flight, loading: :lazy %>
     <p>
       <%= link_to "Show this flight", flight %>
     </p>
   <% end %>
+  <% else %>
+    <p>No flights found. Please try searching again.</p>
+    <%= link_to 'See all flights', flights_path%>
+  <% end %>
 </div>
-
-<%= link_to "New flight", new_flight_path %>

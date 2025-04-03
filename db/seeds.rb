@@ -18,7 +18,7 @@ airports.each do |code|
 end
 
 airports = Airport.all
-dates = (Date.today..(Date.today + 30)).to_a
+dates = (Date.today..(Date.today + 2)).to_a
 durations = [ 60, 90, 120, 150, 180, 210, 240 ]
 
 airports.each do |departure|

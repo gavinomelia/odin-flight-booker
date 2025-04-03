@@ -4,7 +4,14 @@ class FlightsController < ApplicationController
   # GET /flights or /flights.json
   def index
     @flights = Flight.all
+    @airports = Airport.all
+
+    apply_search_filters if search_params_present?
+
+    @passenger_count = params[:passengers].to_i if params[:passengers].present?
   end
+
+
 
   # GET /flights/1 or /flights/1.json
   def show
@@ -59,6 +66,29 @@ class FlightsController < ApplicationController
   end
 
   private
+
+    def search_params_present?
+      params[:departure_airport].present? ||
+      params[:arrival_airport].present? ||
+      params[:start_datetime].present?
+    end
+
+    def apply_search_filters
+      filter_by_airports if params[:departure_airport].present? && params[:arrival_airport].present?
+      filter_by_date if params[:start_datetime].present?
+    end
+
+    def filter_by_airports
+      @flights = @flights.where(
+        departure_airport_id: params[:departure_airport],
+        arrival_airport_id: params[:arrival_airport]
+      )
+    end
+
+    def filter_by_date
+      date = Date.parse(params[:start_datetime])
+      @flights = @flights.where("DATE(start_datetime) = ?", date)
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_flight
       @flight = Flight.find(params.expect(:id))
