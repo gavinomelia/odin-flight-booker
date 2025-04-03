@@ -19,14 +19,22 @@
 
 <div id="flights">
   <% if @flights.exists? %>
-  <% @flights.each do |flight| %>
-    <%= render flight, loading: :lazy %>
-    <p>
-      <%= link_to "Show this flight", flight %>
-    </p>
-  <% end %>
+    <%= form_with url: flights_path, method: :get do |form| %>
+      <%= form.hidden_field :passengers, value: params[:passengers] %>
+      <div class="flight-options">
+        <% @flights.each do |flight| %>
+            <div class="flight-option" style="display: flex; margin-right: 20px;">
+            <%= form.radio_button :flight_id, flight.id, id: "flight_#{flight.id}" %>
+            <%= form.label "flight_#{flight.id}" do %>
+              <%= render flight, loading: :lazy %>
+            <% end %>
+            </div>
+        <% end %>
+      </div>
+      <%= form.submit "Book Selected Flight" if @flights.any? %>
+    <% end %>
   <% else %>
     <p>No flights found. Please try searching again.</p>
-    <%= link_to 'See all flights', flights_path%>
+    <%= link_to 'See all flights', flights_path %>
   <% end %>
 </div>
