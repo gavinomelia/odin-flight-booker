@@ -68,9 +68,7 @@ class FlightsController < ApplicationController
   private
 
     def search_params_present?
-      params[:departure_airport].present? ||
-      params[:arrival_airport].present? ||
-      params[:start_datetime].present?
+      params.slice(:departure_airport, :arrival_airport, :start_datetime).values.any?(&:present?)
     end
 
     def apply_search_filters
@@ -86,8 +84,7 @@ class FlightsController < ApplicationController
     end
 
     def filter_by_date
-      date = Date.parse(params[:start_datetime])
-      @flights = @flights.where("DATE(start_datetime) = ?", date)
+      @flights = @flights.where("DATE(start_datetime) = ?", Date.parse(params[:start_datetime]))
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_flight
