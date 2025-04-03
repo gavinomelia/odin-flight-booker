@@ -9,21 +9,35 @@
 #   end
 # Create airports
 airports = [
-  { code: 'JFK', name: 'John F. Kennedy International Airport', location: 'New York' },
-  { code: 'LAX', name: 'Los Angeles International Airport', location: 'Los Angeles' },
-  { code: 'ORD', name: 'O\'Hare International Airport', location: 'Chicago' },
-  { code: 'ATL', name: 'Hartsfield-Jackson Atlanta International Airport', location: 'Atlanta' },
-  { code: 'SFO', name: 'San Francisco International Airport', location: 'San Francisco' },
-  { code: 'DFW', name: 'Dallas/Fort Worth International Airport', location: 'Dallas' },
-  { code: 'DEN', name: 'Denver International Airport', location: 'Denver' },
-  { code: 'SEA', name: 'Seattle-Tacoma International Airport', location: 'Seattle' },
-  { code: 'MIA', name: 'Miami International Airport', location: 'Miami' },
-  { code: 'BOS', name: 'Boston Logan International Airport', location: 'Boston' }
+  'JFK', 'LAX', 'ORD', 'ATL', 'SFO',
+  'DFW', 'DEN', 'SEA', 'MIA', 'BOS'
 ]
 
-airports.each do |airport_data|
-  Airport.find_or_create_by!(code: airport_data[:code]) do |airport|
-    airport.name = airport_data[:name]
-    airport.location = airport_data[:location]
+airports.each do |code|
+  Airport.find_or_create_by!(code: code)
+end
+
+airports = Airport.all
+dates = (Date.today..(Date.today + 30)).to_a
+durations = [ 60, 90, 120, 150, 180, 210, 240 ]
+
+airports.each do |departure|
+  airports.each do |arrival|
+    next if departure == arrival
+
+    dates.each do |date|
+      3.times do |i|
+        hour = 8 + (i * 4)  # 8am, 12pm, 4pm
+        start_datetime = date.to_datetime.change(hour: hour)
+        duration = durations.sample
+
+        Flight.find_or_create_by!(
+          departure_airport: departure,
+          arrival_airport: arrival,
+          start_datetime: start_datetime,
+          duration: duration
+        )
+      end
+    end
   end
 end
