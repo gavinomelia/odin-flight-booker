@@ -1,6 +1,23 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @flight %>
+  <h4>Departing from: <%= @flight.departure_airport.code %></h4>
+  <h4>Arriving at: <%= @flight.arrival_airport.code %></h4>
+
+  <p><strong>Date: </strong><%=
+      @flight.start_datetime.strftime("%B %d, %Y at %I:%M %p")%>
+ </p>
+
+<p>
+  <strong>Duration:</strong>
+  <%= @flight.duration %> minutes
+</p>
+
+<p>
+  <strong>Arrival Time:</strong>
+  <%= @arrival_time.strftime("%B %d, %Y at %I:%M %p") %>
+</p>
+
 
 <div>
   <%= link_to "Edit this flight", edit_flight_path(@flight) %> |

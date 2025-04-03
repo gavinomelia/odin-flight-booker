@@ -8,6 +8,7 @@ class FlightsController < ApplicationController
 
   # GET /flights/1 or /flights/1.json
   def show
+    @arrival_time = @flight.start_datetime + @flight.duration.minutes
   end
 
   # GET /flights/new
