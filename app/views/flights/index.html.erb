@@ -7,7 +7,7 @@
   <%= f.label 'Destination:' %>
   <%= f.collection_select :arrival_airport, Airport.all, :id, :code %>
   <%= f.label 'Number of passengers (1-4):' %>
-  <%= f.select :passengers, [1, 2, 3, 4] %>
+  <%= f.select :passengers, [1, 2, 3, 4], selected: params[:passengers] %>
   <%= f.label 'Date:' %>
   <%= f.select :start_datetime,
       Flight.distinct.order(:start_datetime).pluck(:start_datetime).map { |dt| [dt.strftime('%B %d, %Y'), dt.to_date] },
@@ -19,8 +19,8 @@
 
 <div id="flights">
   <% if @flights.exists? %>
-    <%= form_with url: flights_path, method: :get do |form| %>
-      <%= form.hidden_field :passengers, value: params[:passengers] %>
+    <%= form_with url: new_booking_path, method: :get do |form| %>
+      <%= form.hidden_field :passenger_count, value: params[:passengers].presence || 1 %>
       <div class="flight-options">
         <% @flights.each do |flight| %>
             <div class="flight-option" style="display: flex; margin-right: 20px;">

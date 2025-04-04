@@ -1,0 +1,24 @@
+<div class="booking-details">
+  <h1>Booking Confirmation</h1>
+  <div class="flight-info">
+    <h2>Flight Details</h2>
+    <p><strong>Departure:</strong> <%= @booking.flight.departure_airport.code %></p>
+    <p><strong>Arrival:</strong> <%= @booking.flight.arrival_airport.code %></p>
+    <p><strong>Date: </strong><%=
+      @flight.start_datetime.strftime("%B %d, %Y at %I:%M %p")%>
+    </p>
+  </div>
+
+  <div class="passengers">
+    <h2>Passenger Information</h2>
+    <% @booking.passengers.each_with_index do |passenger, index| %>
+      <div class="passenger">
+        <h3>Passenger <%= index + 1 %></h3>
+        <p><strong>Name:</strong> <%= passenger.name %></p>
+        <p><strong>Email:</strong> <%= passenger.email %></p>
+      </div>
+    <% end %>
+  </div>
+
+  <%= link_to "Return to All Flights", root_path, class: "btn btn-primary" %>
+</div>
