@@ -1,0 +1,16 @@
+<div class="passenger-fields">
+  <%= form.fields_for :passengers, passenger do |passenger_form| %>
+  <h3>Passenger</h3>
+    <div class="field">
+      <%= passenger_form.label :name %>
+      <%= passenger_form.text_field :name, required: true %>
+    </div>
+
+    <div class="field">
+      <%= passenger_form.label :email %>
+      <%= passenger_form.email_field :email, required: true %>
+    </div>
+  <% end %>
+
+  <button type="button" data-action="click->passenger#removePassenger" class="btn">Remove Passenger</button>
+</div>

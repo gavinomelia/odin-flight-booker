@@ -1,9 +1,6 @@
 <h1>Bookings#new</h1>
 
-<%= @booking.inspect %>
-
 <h2>Passenger Information</h2>
-<%= @booking.passengers.inspect %>
 <%= form_with(model: @booking, local: true) do |form| %>
   <% if @booking.errors.any? %>
     <div id="error_explanation">
@@ -18,22 +15,23 @@
 
   <%= form.hidden_field :flight_id %>
 
-  <% @booking.passengers.each_with_index do |passenger, index| %>
-    <div class="passenger-fields">
-      <h3>Passenger <%= index + 1 %></h3>
-      <%= form.fields_for :passengers, passenger do |passenger_form| %>
-        <div class="field">
-          <%= passenger_form.label :name %>
-          <%= passenger_form.text_field :name, required: true %>
-        </div>
+<div data-controller="passenger">
+  <div data-passenger-target="container" id="passengers-container">
+    <% @booking.passengers.each_with_index do |passenger, index| %>
+      <%= render partial: 'passenger_fields', locals: { form: form, passenger: passenger } %>
+    <% end %>
+  </div>
 
-        <div class="field">
-          <%= passenger_form.label :email %>
-          <%= passenger_form.email_field :email, required: true %>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
+  <template data-passenger-target="template">
+    <%= render partial: 'passenger_fields', locals: { form: form, passenger: Passenger.new } %>
+  </template>
+
+  <%= button_tag "Add Another Passenger",
+                type: "button",
+                data: { action: "click->passenger#addPassenger" },
+                class: "btn" %>
+</div>
+</div>
 
   <div class="actions">
     <%= form.submit "Create Booking" %>

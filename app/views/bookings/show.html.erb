@@ -5,8 +5,8 @@
     <p><strong>Departure:</strong> <%= @booking.flight.departure_airport.code %></p>
     <p><strong>Arrival:</strong> <%= @booking.flight.arrival_airport.code %></p>
     <p><strong>Date: </strong><%=
-      @flight.start_datetime.strftime("%B %d, %Y at %I:%M %p")%>
-    </p>
+      @booking.flight.start_datetime.strftime("%B %d, %Y at %I:%M %p") if @booking.flight.start_datetime
+    %></p>
   </div>
 
   <div class="passengers">
